@@ -1,18 +1,11 @@
 
-public class ArvoreAVL extends ArvorePesquisaBinaria implements IArvoreAVL {
+public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 
 	public void inserir(Object chave) {
-		
+
 		((IArvoreAVL) this).inserir(chave);
 		this.buscar(chave);
-		
-	}
-	
-	
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+
 	}
 
 	@Override
@@ -38,7 +31,7 @@ public class ArvoreAVL extends ArvorePesquisaBinaria implements IArvoreAVL {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
+
+
 
 }
