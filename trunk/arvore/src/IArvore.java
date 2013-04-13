@@ -19,4 +19,6 @@ public interface IArvore {
 	
 	public Object getChaveRaiz();
 	
+	public boolean isEmpty();
+	
 }
