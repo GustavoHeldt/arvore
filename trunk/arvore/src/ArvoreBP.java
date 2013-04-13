@@ -2,14 +2,14 @@
 public class ArvoreBP implements IArvore {
 
 	INo raiz;
-	
+
 	public ArvoreBP () {
 		raiz = new No();
 		raiz.setFilhoEsquerdo(new No());
 	}
-	
+
 	public INo buscar(Object chave) {
-	
+
 		INo noAtual = this.getRaiz(); 
 
 		while (!noAtual.isNull() && !noAtual.getChave().equals(chave)) {
@@ -19,76 +19,76 @@ public class ArvoreBP implements IArvore {
 				noAtual = noAtual.getFilhoEsquerdo();
 			}
 		}
-		
+
 		return noAtual;
 	}
-	
+
 	public void inserir(Object chave) {
-		
+
 		INo no = this.getRaiz();
-		
+
 		if (no.isNull()) {
 			no.setChave(chave);
 		} else {
 			no = buscar(chave);
 			no.setChave(chave);
 		}
-		
+
 		INo nD = new No();
 		no.setFilhoDireito(nD);
 		nD.setPai(no);
-		
+
 		INo nE = new No();
 		no.setFilhoEsquerdo(nE);
 		nE.setPai(no);
 	}
-	
-	
+
+
 	public INo remover(Object chave) {
-		
+
 		INo no = buscar(chave);
 		System.out.println("Rem "+ (Integer) no.getChave() +"\t fil esq: "+ no.getFilhoEsquerdo().getChave() +"\t fil dir: "+ no.getFilhoDireito().getChave());
-		
+
 		if (!no.isNull()) {
-			
+
 			INo noPai = no.getPai();
 			INo noFilhoEsquerdo = no.getFilhoEsquerdo();
 			INo noFilhoDireito = no.getFilhoDireito();
-			
+
 			if (no.isExterno()) {
-				
+
 				//codigo repetido 1
 				if (no == noPai.getFilhoDireito()) {
 					noPai.setFilhoDireito(null);
 				} else {
 					noPai.setFilhoEsquerdo(null);
 				}
-				
+
 				no.setPai(null);
-				
+
 			} else if (!no.hasFilhoDireito()) {
-				
+
 				//codigo repetido 1
 				if (no == noPai.getFilhoDireito()) {
 					noPai.setFilhoDireito(noFilhoEsquerdo);
 				} else {
 					noPai.setFilhoEsquerdo(noFilhoEsquerdo);
 				}
-				
+
 				noFilhoEsquerdo.setPai(noPai);
-				
+
 				no.setPai(null);
 				no.setFilhoEsquerdo(null);
-					
+
 			} else {
-				
+
 				INo sucessor = sucessor(no);
 				System.out.println("Suc "+ (Integer) sucessor.getChave());
-				
+
 				no.setChave(sucessor.getChave());
-				
+
 				INo paiSucessor = sucessor.getPai();
-				
+
 				if (paiSucessor == no) {
 					no.setFilhoDireito(sucessor.getFilhoDireito());
 				} else {
@@ -96,28 +96,28 @@ public class ArvoreBP implements IArvore {
 					paiSucessor.getFilhoEsquerdo().setPai(paiSucessor);
 					//sucessor.getFilhoDireito().setPai(paiSucessor);
 				}
-				
+
 				sucessor.setPai(null);
 			} 
-			
+
 		}
-		
+
 		return no;
 	}
-	
-	
+
+
 	public INo sucessor(Object chave) {
 		return sucessor(buscar(chave));
 	}
-	
+
 	private INo sucessor(INo no) {
 		System.out.println("sucessor de: "+ no.getChave());
-		
+
 		INo noAtual = null;
 
 		if (no.hasFilhoDireito()) {
 			noAtual = no.getFilhoDireito();
-		
+
 			while (noAtual.hasFilhoEsquerdo()) {
 				noAtual = noAtual.getFilhoEsquerdo();
 			}
@@ -125,30 +125,30 @@ public class ArvoreBP implements IArvore {
 
 		return noAtual;
 	}
-	
+
 
 	public int altura(Object chave) {
 		return altura(buscar(chave));
 	}
-	
+
 	private int altura(INo no) {
-		
+
 		if (no.isNull() || no.isExterno()) {
 			return 0;
 		} else {
-			
+
 			int alturaFd = altura(no.getFilhoDireito());
 			int alturaFe = altura(no.getFilhoEsquerdo());
 			int altura = Math.max(alturaFe, alturaFd);
 			return 1 + altura;
 		}
 	}
-	
+
 	/*testar*/
 	public int profundidade(Object chave) {
 		return profundidade(buscar(chave));
 	}
-	
+
 	private int profundidade(INo no) {
 		if (this.isRaiz(no)) {
 			return 0;
@@ -156,53 +156,53 @@ public class ArvoreBP implements IArvore {
 			return 1 + profundidade(no.getPai());
 		}
 	}
-	
+
 	public void preOrdem(INo no) {
 		System.out.print((Integer) no.getChave() +"\t");
-		
+
 		if (no.hasFilhoEsquerdo()) {
 			preOrdem(no.getFilhoEsquerdo());
 		}
-		
+
 		if (no.hasFilhoDireito()) {
 			preOrdem(no.getFilhoDireito());
 		}
 	}
-	
+
 	/*testar*/
 	public void posOrdem(INo no) {
 		if (no.hasFilhoEsquerdo()) {
 			posOrdem(no.getFilhoEsquerdo());
 		}
-		
+
 		if (no.hasFilhoDireito()) {
 			preOrdem(no.getFilhoDireito());
 		}
-		
+
 		System.out.print((Integer) no.getChave() +"\t");
 	}
-	
+
 	@Override
 	public Object getChaveRaiz() {
 		return this.raiz.getFilhoEsquerdo().getChave();
 	}
-	
+
 	protected INo getRaiz () {
 		return this.raiz.getFilhoEsquerdo();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		
+
 		if (this.raiz.isNull()) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public boolean isRaiz(INo no) {
 		return no == this.getRaiz();
 	}
-	
+
 }

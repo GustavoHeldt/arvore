@@ -1,6 +1,6 @@
 
 public class NoAVL extends No implements INoAVL {
-	
+
 	private int FB;
 
 	public void setFB(int fb) {

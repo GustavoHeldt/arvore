@@ -1,10 +1,10 @@
 
 public class TesteBinariaPesquisa {
-	
+
 	public static void main(String[] args) {
-		
-		ArvorePesquisaBinaria abp = new ArvorePesquisaBinaria();
-		
+
+		ArvoreBP abp = new ArvoreBP();
+
 		abp.inserir(6);
 		abp.inserir(2);
 		abp.inserir(1);
@@ -13,17 +13,17 @@ public class TesteBinariaPesquisa {
 		abp.inserir(5);
 		abp.inserir(9);
 		abp.inserir(8);
-		
-		
+
+
 		//System.out.println(abp.altura(5));
-		System.out.println(abp.altura(6));
-		
-		abp.preOrdem(abp.raiz);
+		System.out.println("Altura: "+ abp.altura(2));
+
+		abp.preOrdem(abp.getRaiz());
 		System.out.println("\n");
 		abp.remover(2);
-		
-		abp.preOrdem(abp.raiz);
-		
+
+		abp.preOrdem(abp.getRaiz());
+
 	}
 
 }

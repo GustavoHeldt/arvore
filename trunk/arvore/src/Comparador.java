@@ -13,16 +13,16 @@
  */
 public class Comparador {	
 	public int comparar(Object a, Object b){
-	    Integer a1=null,b1=null;
-	    if(a!=null)
-	      a1=new Integer(a.toString());	    
-	    if(b!=null)
-	      b1=new Integer(b.toString());
-	    
-	    if((a==null)&&(b!=null))
-	        return (new Integer(0)).compareTo(b1);
-	    else if((b==null)&&(a!=null))
-	        return a1.compareTo((new Integer(0)));
-	    else
-	        return a1.compareTo(b1);	}
+		Integer a1=null,b1=null;
+		if(a!=null)
+			a1=new Integer(a.toString());	    
+		if(b!=null)
+			b1=new Integer(b.toString());
+
+		if((a==null)&&(b!=null))
+			return (new Integer(0)).compareTo(b1);
+		else if((b==null)&&(a!=null))
+			return a1.compareTo((new Integer(0)));
+		else
+			return a1.compareTo(b1);	}
 }
