@@ -5,7 +5,9 @@ public class ArvoreBP implements IArvore {
 
 	public ArvoreBP () {
 		raiz = new No();
-		raiz.setFilhoEsquerdo(new No());
+		INo no = new No();
+		raiz.setFilhoEsquerdo(no);
+		no.setPai(raiz);
 	}
 
 	public INo buscar(Object chave) {
@@ -122,7 +124,7 @@ public class ArvoreBP implements IArvore {
 		return sucessor(buscar(chave));
 	}
 
-	private INo sucessor(INo no) {
+	protected INo sucessor(INo no) {
 		//System.out.println("sucessor de: "+ no.getChave());
 
 		INo noAtual = null;
@@ -143,7 +145,7 @@ public class ArvoreBP implements IArvore {
 		return altura(buscar(chave));
 	}
 
-	private int altura(INo no) {
+	protected int altura(INo no) {
 
 		if (no.isNull() || no.isExterno()) {
 			return 0;
