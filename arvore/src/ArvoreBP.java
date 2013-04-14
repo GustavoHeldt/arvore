@@ -25,14 +25,9 @@ public class ArvoreBP implements IArvore {
 
 	public void inserir(Object chave) {
 
-		INo no = this.getRaiz();
+		INo no = this.buscar(chave);
 
-		if (no.isNull()) {
-			no.setChave(chave);
-		} else {
-			no = buscar(chave);
-			no.setChave(chave);
-		}
+		this.inserir(no, chave);
 
 		INo nD = new No();
 		no.setFilhoDireito(nD);
@@ -42,11 +37,27 @@ public class ArvoreBP implements IArvore {
 		no.setFilhoEsquerdo(nE);
 		nE.setPai(no);
 	}
+	
+	protected void inserir(INo no, Object chave) {
+		
+		if (no.isNull()) {
+			no.setChave(chave);
+		} else {
+			no = buscar(chave);
+			no.setChave(chave);
+		}
+		
+	}
 
 
 	public INo remover(Object chave) {
 
 		INo no = buscar(chave);
+
+		return remover(no);
+	}
+	
+	protected INo remover(INo no) {
 		System.out.println("Rem "+ (Integer) no.getChave() +"\t fil esq: "+ no.getFilhoEsquerdo().getChave() +"\t fil dir: "+ no.getFilhoDireito().getChave());
 
 		if (!no.isNull()) {
