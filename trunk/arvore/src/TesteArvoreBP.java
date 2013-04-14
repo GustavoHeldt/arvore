@@ -158,6 +158,26 @@ public class TesteArvoreBP {
 	}
 	
 	@Test
+	public void testeAltura2() {
+		
+		IArvore a = new ArvoreAVL();
+		a.inserir(60);
+		a.inserir(30);
+		a.inserir(70);
+		a.inserir(20);
+		a.inserir(50);
+		a.inserir(90);
+		a.inserir(10);
+		a.inserir(40);
+		a.inserir(55);
+		
+		assertEquals(1, a.altura(20));
+		System.out.println("\n\n\n\n\n"+a.altura(20));
+		
+		
+	}
+	
+	@Test
 	public void testeGenerico() {
 		IArvore a = new ArvoreBP();
 		

@@ -142,6 +142,7 @@ public class ArvoreBP implements IArvore {
 
 
 	public int altura(Object chave) {
+		System.out.println("altura object");
 		return altura(buscar(chave));
 	}
 
@@ -150,9 +151,9 @@ public class ArvoreBP implements IArvore {
 		if (no.isNull() || no.isExterno()) {
 			return 0;
 		} else {
-
-			int alturaFd = altura(no.getFilhoDireito());
-			int alturaFe = altura(no.getFilhoEsquerdo());
+			System.out.println("no chave: "+ no.getChave() +"\tfe: "+no.getFilhoEsquerdo().getChave() +"\tfd: "+ no.getFilhoDireito().getChave());
+			int alturaFd = altura((INo) no.getFilhoDireito());
+			int alturaFe = altura((INo) no.getFilhoEsquerdo());
 			int altura = Math.max(alturaFe, alturaFd);
 			return 1 + altura;
 		}
@@ -195,7 +196,7 @@ public class ArvoreBP implements IArvore {
 			posOrdem(no.getFilhoDireito(), caminho);
 		}
 
-		System.out.print((Integer) no.getChave() +"\t");
+		//System.out.print((Integer) no.getChave() +"\t");
 		caminho.append(((Integer) no.getChave()) +"\t");
 	}
 

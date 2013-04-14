@@ -53,22 +53,30 @@ public class TesteArvoreAVL {
 		a.preOrdem(raiz, caminho);
 		assertEquals("60\t50\t30\t20\t55\t70\t90\t", caminho.toString());
 
-		System.out.println("Inseriu 10");
+		System.out.println("\nINSERINDO 10");
 		a.inserir(10);
 		raiz = ((ArvoreAVL) a).getRaiz();
 		caminho = new StringBuilder();
 		a.preOrdem(raiz, caminho);
 		assertEquals("60\t50\t20\t10\t30\t55\t70\t90\t", caminho.toString());
-		
 
-		System.out.println("Inseriu 40");
+		caminho = new StringBuilder();
+		((ArvoreAVL) a).preOrdem((INoAVL)raiz, caminho);
+		System.out.println(caminho.toString());
+		
+		System.out.println("\nINSERINDO 40");
 		a.inserir(40);
 		raiz = ((ArvoreAVL) a).getRaiz();
 		caminho = new StringBuilder();
-		a.preOrdem(raiz, caminho);
-		System.out.println(caminho.toString());
+		a.preOrdem((INoAVL)raiz, caminho);
 		assertEquals("60\t30\t20\t10\t50\t40\t55\t70\t90\t", caminho.toString());
-
+		
+		assertEquals(1, a.altura(20));
+		System.out.println("\n\n\n\n\n"+a.altura(20));
+		
+		caminho = new StringBuilder();
+		((ArvoreAVL) a).preOrdem((INoAVL)raiz, caminho);
+		System.out.println(caminho.toString());
 	}
 
 }
