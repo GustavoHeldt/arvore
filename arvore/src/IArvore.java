@@ -15,7 +15,8 @@ public interface IArvore {
 	public int profundidade(Object no);
 
 
-	public void preOrdem(INo n);
+	public void preOrdem(INo n, StringBuilder caminho);
+	public void posOrdem(INo n, StringBuilder caminho);
 
 	public Object getChaveRaiz();
 
