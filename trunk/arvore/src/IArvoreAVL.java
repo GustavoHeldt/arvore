@@ -1,9 +1,9 @@
 public interface IArvoreAVL extends IArvore{
 
-	public abstract boolean rotacaoDireita();
-	public abstract boolean rotacaoEsquerda();
+	public abstract void rotacaoDireita(INoAVL no);
+	public abstract void rotacaoEsquerda(INoAVL no);
 
-	public abstract boolean rotacaoDuplaDireita();
-	public abstract boolean rotacaoDuplaEsquerda();
+	public abstract void rotacaoDuplaDireita(INoAVL no);
+	public abstract void rotacaoDuplaEsquerda(INoAVL no);
 
 }
