@@ -58,7 +58,7 @@ public class ArvoreBP implements IArvore {
 	}
 	
 	protected INo remover(INo no) {
-		System.out.println("Rem "+ (Integer) no.getChave() +"\t fil esq: "+ no.getFilhoEsquerdo().getChave() +"\t fil dir: "+ no.getFilhoDireito().getChave());
+		//System.out.println("Rem "+ (Integer) no.getChave() +"\t fil esq: "+ no.getFilhoEsquerdo().getChave() +"\t fil dir: "+ no.getFilhoDireito().getChave());
 
 		if (!no.isNull()) {
 
@@ -70,11 +70,12 @@ public class ArvoreBP implements IArvore {
 
 				//codigo repetido 1
 				if (no == noPai.getFilhoDireito()) {
-					noPai.setFilhoDireito(null);
+					noPai.setFilhoDireito(noFilhoDireito);
 				} else {
-					noPai.setFilhoEsquerdo(null);
+					noPai.setFilhoEsquerdo(noFilhoDireito);
 				}
-
+				noFilhoDireito.setPai(noPai);
+				
 				no.setPai(null);
 
 			} else if (!no.hasFilhoDireito()) {
@@ -94,7 +95,7 @@ public class ArvoreBP implements IArvore {
 			} else {
 
 				INo sucessor = sucessor(no);
-				System.out.println("Suc "+ (Integer) sucessor.getChave());
+				//System.out.println("Suc "+ (Integer) sucessor.getChave());
 
 				no.setChave(sucessor.getChave());
 
@@ -104,7 +105,7 @@ public class ArvoreBP implements IArvore {
 					no.setFilhoDireito(sucessor.getFilhoDireito());
 				} else {
 					paiSucessor.setFilhoEsquerdo(sucessor.getFilhoDireito());
-					paiSucessor.getFilhoEsquerdo().setPai(paiSucessor);
+					sucessor.getFilhoEsquerdo().setPai(paiSucessor);
 					//sucessor.getFilhoDireito().setPai(paiSucessor);
 				}
 
@@ -122,7 +123,7 @@ public class ArvoreBP implements IArvore {
 	}
 
 	private INo sucessor(INo no) {
-		System.out.println("sucessor de: "+ no.getChave());
+		//System.out.println("sucessor de: "+ no.getChave());
 
 		INo noAtual = null;
 
@@ -168,29 +169,32 @@ public class ArvoreBP implements IArvore {
 		}
 	}
 
-	public void preOrdem(INo no) {
-		System.out.print((Integer) no.getChave() +"\t");
+	public void preOrdem(INo no, StringBuilder caminho) {
+		caminho.append((Integer) no.getChave() +"\t");
+		//System.out.println(caminho);
+		//System.out.print((Integer) no.getChave() +"\t");
 
 		if (no.hasFilhoEsquerdo()) {
-			preOrdem(no.getFilhoEsquerdo());
+			preOrdem(no.getFilhoEsquerdo(), caminho);
 		}
 
 		if (no.hasFilhoDireito()) {
-			preOrdem(no.getFilhoDireito());
+			preOrdem(no.getFilhoDireito(), caminho);
 		}
 	}
 
 	/*testar*/
-	public void posOrdem(INo no) {
+	public void posOrdem(INo no, StringBuilder caminho) {
 		if (no.hasFilhoEsquerdo()) {
-			posOrdem(no.getFilhoEsquerdo());
+			posOrdem(no.getFilhoEsquerdo(), caminho);
 		}
 
 		if (no.hasFilhoDireito()) {
-			preOrdem(no.getFilhoDireito());
+			posOrdem(no.getFilhoDireito(), caminho);
 		}
 
 		System.out.print((Integer) no.getChave() +"\t");
+		caminho.append(((Integer) no.getChave()) +"\t");
 	}
 
 	@Override
@@ -205,7 +209,7 @@ public class ArvoreBP implements IArvore {
 	@Override
 	public boolean isEmpty() {
 
-		if (this.raiz.isNull()) {
+		if (getRaiz().isNull()) {
 			return true;
 		}
 
