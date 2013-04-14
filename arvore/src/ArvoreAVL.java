@@ -3,7 +3,9 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 
 	public ArvoreAVL() {
 		raiz = new NoAVL();
-		raiz.setFilhoEsquerdo(new NoAVL());
+		INo no = new NoAVL();
+		raiz.setFilhoEsquerdo(no);
+		no.setPai(raiz);
 	}
 
 	
@@ -21,6 +23,8 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 		no.setFilhoEsquerdo(nE);
 		nE.setPai(no);
 		
+		
+		//repeticao 3
 		int dif = 0;
 		if (no.getPai().getFilhoEsquerdo() == no) {
 			dif = 1;
@@ -49,30 +53,51 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 		return no;
 	}
 	
-	
-	private void atualizarFBInsercao(INoAVL noInserido, int dif) {
-		INoAVL noPai = (INoAVL) noInserido.getPai();
-		noPai.setFB(noPai.getFB() + dif);
-		
-		if (noPai.getFB() == -2) {
-			//codigo repetido 2
-			if (noInserido.getFB() <= 0) {
-				rotacaoEsquerda(noPai);
-			} else {
-				rotacaoDuplaEsquerda(noPai);
-			}
+
+	private void atualizarFBInsercao(INoAVL noAnterior, int dif) {
+		if (noAnterior != this.getRaiz()) {
+			INoAVL noPai = (INoAVL) noAnterior.getPai();
+			noPai.setFB(noPai.getFB() + dif);
+
+			StringBuilder caminho = new StringBuilder();
+			preOrdem((INoAVL)getRaiz(), caminho);
+			System.out.println(caminho.toString());
 			
-		} else if (noPai.getFB() == 2) {
-			//codigo repetido 2
-			if (noInserido.getFB() >= 0) {
-				rotacaoDireita(noPai);
-			} else {
-				rotacaoDuplaDireita(noPai);
+			if (noPai.getFB() == -2) {
+		//		System.out.println("desbalanceado - direita");
+				//codigo repetido 2
+				if (noAnterior.getFB() <= 0) {
+		//			System.out.println("rotacao simples a esquerda");
+					rotacaoEsquerda(noPai);
+				} else {
+		//			System.out.println("rotacao dupla a esquerda");
+					rotacaoDuplaEsquerda(noPai);
+				}
+
+			} else if (noPai.getFB() == 2) {
+			//	System.out.println("desbalanceado - esquerda");
+				//codigo repetido 2
+				if (noAnterior.getFB() >= 0) {
+			//		System.out.println("rotacao simples");
+					rotacaoDireita(noPai);
+					noPai = (INoAVL) noAnterior.getPai();
+				} else {
+			//		System.out.println("rotacao dupla");
+					rotacaoDuplaDireita(noPai);
+				}
 			}
-		}
-		
-		if (noPai.getFB() != 0) {
-			atualizarFBInsercao(noPai, dif);
+
+			if (noPai.getFB() != 0) {
+				
+				//repeticao 3
+				if (noPai.getPai().getFilhoEsquerdo() == noPai) {
+					dif = 1;
+				} else {
+					dif = -1;
+				}
+				
+				atualizarFBInsercao(noPai, dif);
+			}
 		}
 	}
 	
@@ -114,8 +139,10 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 	@Override
 	public void rotacaoDireita(INo no) {
 		
+		System.out.println(no.getChave());
+		
 		INo noPai = no.getPai();
-		INo noNeto = no.getFilhoDireito();
+		INo noNeto = no.getFilhoEsquerdo().getFilhoDireito();
 		INo noFilho = no.getFilhoEsquerdo();
 		
 		//codigo repetido 1
@@ -131,16 +158,18 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 		
 		no.setFilhoEsquerdo(noNeto);
 		noNeto.setPai(no);
-
-
+		
+		StringBuilder caminho = new StringBuilder();
+		preOrdem(getRaiz(), caminho);
+		//System.out.println("Apos rot s dir: "+ caminho.toString());
 	}
 	
 	private void rotacaoDireita(INoAVL no) {
+		System.out.println("Rotacao Direita");
 		INoAVL noPai = (INoAVL) no.getPai();
-		INoAVL noNeto = (INoAVL) no.getFilhoDireito();
 		INoAVL noFilho = (INoAVL) no.getFilhoEsquerdo();
-		
-		rotacaoDireita(no);
+		//System.out.println(no.getChave());
+		rotacaoDireita((INo) no);
 		
 		//atualiza o FB dos nós envolvidos
 		noFilho.setFB(calculaFB(noFilho));
@@ -150,7 +179,8 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 
 	@Override
 	public void rotacaoEsquerda(INo no) {
-		
+		System.out.println(no.getChave());
+
 		INo noPai = no.getPai();
 		INo noSucessor = this.sucessor(no);
 		INo noFilho = no.getFilhoDireito();
@@ -174,12 +204,11 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 	}
 	
 	private void rotacaoEsquerda(INoAVL no) {
-		
+		System.out.println("Rotacao esquerda");
 		INoAVL noPai = (INoAVL) no.getPai();
-		INoAVL noSucessor = (INoAVL) this.sucessor(no);
 		INoAVL noFilho = (INoAVL) no.getFilhoDireito();
 		
-		rotacaoEsquerda(no);
+		rotacaoEsquerda((INo) no);
 		
 		//atualiza o FB dos nós envolvidos
 		noFilho.setFB(calculaFB(noFilho));
@@ -189,30 +218,52 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 
 	@Override
 	public void rotacaoDuplaDireita(INo no) {
-		rotacaoDireita(no.getFilhoEsquerdo());
-		rotacaoEsquerda(no);
+		System.out.println("#####Iniciando rotacao Dupla direita");
+		rotacaoEsquerda(no.getFilhoEsquerdo());
+		rotacaoDireita(no);
+		System.out.println("#####Encerrando rotacao Dupla direita");
 	}
 
 	@Override
 	public void rotacaoDuplaEsquerda(INo no) {
+		System.out.println("#####Iniciando rotacao Dupla Esquerda");
 		rotacaoDireita(no.getFilhoDireito());
 		rotacaoEsquerda(no);
+		System.out.println("#####Encerrando rotacao Dupla Esquerda");
 	}
 	
 	
 	private void rotacaoDuplaDireita(INoAVL no) {
-		rotacaoDireita((INoAVL) no.getFilhoEsquerdo());
-		rotacaoEsquerda(no);
+		System.out.println("#####Iniciando rotacao Dupla direita");
+		rotacaoEsquerda((INoAVL) no.getFilhoEsquerdo());
+		rotacaoDireita(no);
+		System.out.println("#####Encerrando rotacao Dupla Esquerda");
 	}
 
 	private void rotacaoDuplaEsquerda(INoAVL no) {
+		System.out.println("#####Iniciando rotacao Dupla Esquerda");
 		rotacaoDireita((INoAVL) no.getFilhoDireito());
 		rotacaoEsquerda(no);
+		System.out.println("#####Encerrando rotacao Dupla Esquerda");
 	}
 	
 	
 	private int calculaFB(INoAVL no) {
-		return this.altura(no.getFilhoEsquerdo()) - this.altura(no.getFilhoEsquerdo());
+		return this.altura((INo) no.getFilhoEsquerdo()) - this.altura((INo) no.getFilhoEsquerdo());
+	}
+	
+	public void preOrdem(INoAVL no, StringBuilder caminho) {
+		caminho.append((Integer) no.getChave() +"("+ no.getFB() +")" +"\t");
+		//System.out.println(caminho);
+		//System.out.print((Integer) no.getChave() +"\t");
+
+		if (no.hasFilhoEsquerdo()) {
+			preOrdem((INoAVL) no.getFilhoEsquerdo(), caminho);
+		}
+
+		if (no.hasFilhoDireito()) {
+			preOrdem((INoAVL) no.getFilhoDireito(), caminho);
+		}
 	}
 
 }
