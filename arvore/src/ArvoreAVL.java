@@ -39,17 +39,22 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 	public INo remover(Object chave) {
 
 		INo no = buscar(chave);
-		remover(no);
 		
 		int dif = 0;
+		
 		if (no.getPai().getFilhoEsquerdo() == no) {
 			dif = -1;
 		} else {
 			dif = 1;
 		}
+
+		no = remover(no);
+		System.out.println("\nRemovendo "+ chave +"\tpai "+ no.getPai().getChave());
+
+		atualizarFBRemocao((INoAVL) no.getPai(), dif);
 		
-		atualizarFBRemocao((INoAVL) no, dif);
-		
+		//desconecta totalmente o nó da árvore
+		no.setPai(null);
 		return no;
 	}
 	
@@ -103,37 +108,50 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 	
 	
 	private void atualizarFBRemocao(INoAVL no, int dif) {
-		
-		INoAVL noFilho = null;
-		no.setFB(no.getFB() + dif);
-		
-		if (dif == -1) {
-			noFilho = (INoAVL) no.getFilhoEsquerdo();
-		} else if (dif == 1) {
-			noFilho = (INoAVL) no.getFilhoDireito();
-		}
-		
-		if (no.getFB() == -2) {
-			//codigo repetido 2
-			if (noFilho.getFB() <= 0) {
-				rotacaoEsquerda(no);
-			} else {
-				rotacaoDuplaEsquerda(no);
+		if (no != this.raiz) {
+			INoAVL noFilho = null;
+			no.setFB(no.getFB() + dif);
+			
+			StringBuilder caminho = new StringBuilder();
+			preOrdem((INoAVL)getRaiz(), caminho);
+			System.out.println(caminho.toString());
+			
+			//System.out.println("No("+ no.getChave() +")\tfE "+ no.getFilhoEsquerdo().getChave() +"\tfD "+ no.getFilhoDireito().getChave());
+			
+			if (no.getFB() == -2) {
+				noFilho = (INoAVL) no.getFilhoDireito();
+				//codigo repetido 2
+				if (noFilho.getFB() <= 0) {
+					rotacaoEsquerda(no);
+					no = noFilho;
+				} else {
+					rotacaoDuplaEsquerda(no);
+					no = (INoAVL) noFilho.getPai();
+				}
+				
+			} else if (no.getFB() == 2) {
+				noFilho = (INoAVL) no.getFilhoEsquerdo();
+				//codigo repetido 2
+				if (noFilho.getFB() >= 0) {
+					rotacaoDireita(no);
+					no = noFilho;
+				} else {
+					rotacaoDuplaDireita(no);
+					no = (INoAVL) noFilho.getPai();
+				}
 			}
 			
-		} else if (no.getFB() == 2) {
-			//codigo repetido 2
-			if (noFilho.getFB() >= 0) {
-				rotacaoDireita(no);
-			} else {
-				rotacaoDuplaDireita(no);
+			
+			if (no.getFB() == 0) {
+				if (no.getPai().getFilhoEsquerdo() == no) {
+					dif = -1;
+				} else {
+					dif = 1;
+				}
+				System.out.println("chamou de novo para atualizar FB(remocao). O no agora eh "+ no.getPai().getChave());
+				atualizarFBRemocao((INoAVL) no.getPai(), dif);
 			}
 		}
-		
-		if (no.getFB() == 0) {
-			atualizarFBRemocao((INoAVL) no.getPai(), dif);
-		}
-		
 	}
 
 	@Override

@@ -56,7 +56,11 @@ public class ArvoreBP implements IArvore {
 
 		INo no = buscar(chave);
 
-		return remover(no);
+		no = remover(no);
+		//retira o nó de vez da árvore
+		no.setPai(null);
+		
+		return no;
 	}
 	
 	protected INo remover(INo no) {
@@ -78,7 +82,7 @@ public class ArvoreBP implements IArvore {
 				}
 				noFilhoDireito.setPai(noPai);
 				
-				no.setPai(null);
+				//no.setPai(null);
 
 			} else if (!no.hasFilhoDireito()) {
 
@@ -91,12 +95,13 @@ public class ArvoreBP implements IArvore {
 
 				noFilhoEsquerdo.setPai(noPai);
 
-				no.setPai(null);
+				//no.setPai(null);
 				no.setFilhoEsquerdo(null);
 
 			} else {
 
 				INo sucessor = sucessor(no);
+				Object chave = no.getChave();
 				//System.out.println("Suc "+ (Integer) sucessor.getChave());
 
 				no.setChave(sucessor.getChave());
@@ -111,7 +116,11 @@ public class ArvoreBP implements IArvore {
 					//sucessor.getFilhoDireito().setPai(paiSucessor);
 				}
 
-				sucessor.setPai(null);
+				//sucessor.setPai(null);
+				//na realidade quem foi removido foi o nó na posição do sucessor
+				no = sucessor;
+				//atualiza o valor da chave do sucessor, para o valor da chave removida
+				no.setChave(chave);
 			} 
 
 		}
