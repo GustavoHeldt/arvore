@@ -142,22 +142,25 @@ public class ArvoreBP implements IArvore {
 
 
 	public int altura(Object chave) {
-		System.out.println("altura object");
+		//System.out.println("altura object");
 		return altura(buscar(chave));
 	}
 
-	protected int altura(INo no) {
+	public int altura(INo no) {
 
-		if (no.isNull() || no.isExterno()) {
+		if (no.isNull() ) { 
+			return -1;
+		} else if (no.isExterno()) {
 			return 0;
 		} else {
-			System.out.println("no chave: "+ no.getChave() +"\tfe: "+no.getFilhoEsquerdo().getChave() +"\tfd: "+ no.getFilhoDireito().getChave());
+			//System.out.println("no chave: "+ no.getChave() +"\tfe: "+no.getFilhoEsquerdo().getChave() +"\tfd: "+ no.getFilhoDireito().getChave());
 			int alturaFd = altura((INo) no.getFilhoDireito());
 			int alturaFe = altura((INo) no.getFilhoEsquerdo());
 			int altura = Math.max(alturaFe, alturaFd);
 			return 1 + altura;
 		}
 	}
+	
 
 	/*testar*/
 	public int profundidade(Object chave) {
