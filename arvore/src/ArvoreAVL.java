@@ -163,14 +163,14 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 	}
 	
 	private void rotacaoDireita(INoAVL no) {
-		//System.out.println("Rotacao Direita");
+		System.out.println("Rotacao Direita - chave: "+ no.getChave());
 		INoAVL noPai = (INoAVL) no.getPai();
 		INoAVL noFilho = (INoAVL) no.getFilhoEsquerdo();
 		//System.out.println(no.getChave());
 		rotacaoDireita((INo) no);
 
 		StringBuilder caminho = new StringBuilder();
-		preOrdem((INoAVL)getRaiz(), caminho);
+		//preOrdem((INoAVL)getRaiz(), caminho);
 		//System.out.println("Apos rot s dir: "+ caminho.toString());
 		
 		//atualiza o FB dos nós envolvidos
@@ -210,7 +210,7 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 	}
 	
 	private void rotacaoEsquerda(INoAVL no) {
-		//System.out.println("Rotacao esquerda");
+		System.out.println("Rotacao esquerda - chave:"+ no.getChave());
 		INoAVL noPai = (INoAVL) no.getPai();
 		INoAVL noFilho = (INoAVL) no.getFilhoDireito();
 		
@@ -218,7 +218,7 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 		
 		//System.out.println("no: "+ no.getChave() +"\tfilho: "+ noFilho.getChave() +"\tpai: "+ noPai.getChave());
 		//System.out.println("no: "+ no.getChave() +"\tno.fe: "+ no.getFilhoEsquerdo().getChave() +"\tno.fd: "+ no.getFilhoDireito().getChave() +"\tFB: "+ calculaFB(no));
-		System.out.println("Altura no.fe: "+ altura(no.getFilhoEsquerdo().getChave()) +"\tno.fd: "+ altura(no.getFilhoDireito().getChave()));
+		System.out.println("Altura no.fe: "+ altura((INo) no.getFilhoEsquerdo()) +"\tno.fd: "+ altura((INo) no.getFilhoDireito()) +"\tFB: "+ calculaFB(no));
 		//System.out.println("Altura no.fe: "+ altura(20) +"\tno.fd: "+ altura(no.getFilhoDireito().getChave()));
 
 		//atualiza o FB dos nós envolvidos
@@ -267,7 +267,7 @@ public class ArvoreAVL extends ArvoreBP implements IArvoreAVL {
 		if (no == this.raiz) {
 			return 0;
 		}
-		return this.altura((INo) no.getFilhoEsquerdo()) - this.altura((INo) no.getFilhoDireito());
+		return altura(no.getFilhoEsquerdo()) - altura(no.getFilhoDireito());
 	}
 	
 	public void preOrdem(INoAVL no, StringBuilder caminho) {

@@ -160,7 +160,7 @@ public class TesteArvoreBP {
 	@Test
 	public void testeAltura2() {
 		
-		IArvore a = new ArvoreAVL();
+		IArvore a = new ArvoreBP();
 		a.inserir(60);
 		a.inserir(30);
 		a.inserir(70);
@@ -171,9 +171,12 @@ public class TesteArvoreBP {
 		a.inserir(40);
 		a.inserir(55);
 		
-		assertEquals(1, a.altura(20));
-		System.out.println("\n\n\n\n\n"+a.altura(20));
+		Integer chave = 20;
+		assertEquals(1, a.altura(chave));
+		System.out.println("\n\n\n\n\n"+a.altura(chave));
 		
+		INo no = a.buscar(chave);
+		System.out.println(((ArvoreBP)a).altura(no));
 		
 	}
 	
