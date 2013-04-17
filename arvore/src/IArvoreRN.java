@@ -1,6 +1,3 @@
-public interface IArvoreRN extends IArvore {
-
-
-	public abstract boolean isEmpty();
-
+public interface IArvoreRN extends IArvoreAVL {
+	
 }
