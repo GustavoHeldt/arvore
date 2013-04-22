@@ -29,15 +29,17 @@ public class ArvoreBP implements IArvore {
 
 		INo no = this.buscar(chave);
 
-		this.inserir(no, chave);
-
-		INo nD = new No();
-		no.setFilhoDireito(nD);
-		nD.setPai(no);
-
-		INo nE = new No();
-		no.setFilhoEsquerdo(nE);
-		nE.setPai(no);
+		if (no.isNull()) {
+			this.inserir(no, chave);
+	
+			INo nD = new No();
+			no.setFilhoDireito(nD);
+			nD.setPai(no);
+	
+			INo nE = new No();
+			no.setFilhoEsquerdo(nE);
+			nE.setPai(no);
+		}
 	}
 	
 	protected void inserir(INo no, Object chave) {
@@ -81,6 +83,7 @@ public class ArvoreBP implements IArvore {
 					noPai.setFilhoEsquerdo(noFilhoDireito);
 				}
 				noFilhoDireito.setPai(noPai);
+				no.setFilhoDireito(null);
 				
 				//no.setPai(null);
 

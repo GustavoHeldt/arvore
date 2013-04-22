@@ -155,6 +155,8 @@ public class ArvoreRN extends ArvoreAVL implements IArvoreRN {
 					&& sobrinhoD.getCor() == INoRN.COR_NEGRA ) {
 				
 				noIrmao.setCor(INoRN.COR_RUBRO);
+				sucessor.setDuploNegro(INoRN.SEM_DUPLO_NEGRO);
+				noPai.setDuploNegro(INoRN.COM_DUPLO_NEGRO);
 			}
 			//caso 2b
 			else if (noPai.getCor() == INoRN.COR_RUBRO 
@@ -177,7 +179,7 @@ public class ArvoreRN extends ArvoreAVL implements IArvoreRN {
 				noIrmao.setCor(INoRN.COR_RUBRO);
 				sobrinhoE.setCor(INoRN.COR_NEGRA);
 			}
-			//caso4
+			//caso 4
 			else if (noIrmao.getCor() == INoRN.COR_NEGRA 
 					&& sobrinhoD.getCor() == INoRN.COR_RUBRO) {
 				
@@ -197,6 +199,39 @@ public class ArvoreRN extends ArvoreAVL implements IArvoreRN {
 			((INoRN) sucessor.getFilhoDireito()).setDuploNegro(INoRN.COM_DUPLO_NEGRO);
 		}
 		
+	}
+	
+	public void atualizarCORRemocao(INoRN no) {
+		
+		INoRN noPai = (INoRN) no.getPai();
+		INoRN noIrmao = (INoRN) no.getPai().getFilhoEsquerdo();
+		if (no == noIrmao) {
+			noIrmao = (INoRN) no.getPai().getFilhoDireito();
+		}
+		INoRN sobrinhoE = (INoRN) noIrmao.getFilhoEsquerdo();
+		INoRN sobrinhoD = (INoRN) noIrmao.getFilhoDireito();
+		
+		//caso 2a
+		if (noPai.getCor() == INoRN.COR_RUBRO 
+				&& noIrmao.getCor() == INoRN.COR_NEGRA 
+				&& sobrinhoE.getCor() == INoRN.COR_NEGRA 
+				&& sobrinhoD.getCor() == INoRN.COR_NEGRA ) {
+			
+			noIrmao.setCor(INoRN.COR_RUBRO);
+			noPai.setCor(INoRN.COR_NEGRA);
+			
+			no.setDuploNegro(INoRN.SEM_DUPLO_NEGRO);
+		}
+		//caso 4
+		else if (noIrmao.getCor() == INoRN.COR_NEGRA 
+				&& sobrinhoD.getCor() == INoRN.COR_RUBRO) {
+			
+			rotacaoEsquerda(noPai);
+			noIrmao.setCor(noPai.getCor());
+			noPai.setCor(INoRN.COR_NEGRA);
+			sobrinhoD.setCor(INoRN.COR_NEGRA);
+			
+		}
 	}
 	
 	public void preOrdem(INoRN no, StringBuilder caminho) {
